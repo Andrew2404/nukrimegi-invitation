@@ -2,24 +2,73 @@
 (async () => {
   const KEY = 'nukrimegi-site-config-v1';
   const DEFAULT = {
-    version: 1,
-    opening: { enabled: true, label: 'თქვენ რჩეულ\nსტუმრებს შორის\nხართ', aria: 'თქვენ რჩეულ სტუმრებს შორის ხართ — მოსაწვევის გახსნა' },
-    hero: { invitation: 'გეპატიჟებით ჩვენი\nსიყვარულის დღეს', firstName: 'ნუკრი', secondName: 'მეგი', weekday: 'ხუთშაბათი', day: '15', month: 'ოქტომბერი', year: '2026', isoDate: '2026-10-15' },
-    story: { dedication: 'თქვენთვის, სიყვარულით', title: 'ერთად იწყება\nჩვენი ახალი ამბავი', body: 'ჩვენი ბედნიერება კიდევ უფრო დიდი იქნება,\nთუ ამ განსაკუთრებულ დღეს ჩვენთან ერთად გაატარებთ.', signature: 'სიყვარულით, ნუკრი & მეგი' },
-    countdown: { title: 'ჩვენს დღემდე', label: 'ქორწილამდე დარჩენილი დრო' },
-    program: { title: 'ჩვენი დღის ამბავი' },
-    events: [
-      { time: '14:00', title: 'ჯვრისწერა', venue: 'მეფე თამარის ტაძარი', map: 'https://maps.app.goo.gl/852rJtv9zc7Wk15cA' },
-      { time: '17:00', title: 'ხელის მოწერის\nცერემონია', venue: 'გონიოს ციხე', map: 'https://www.google.com/maps/search/?api=1&query=Gonio%20Fortress%20Georgia' },
-      { time: '18:00', title: 'ქორწილი', venue: 'რესტორანი გრინ ჰაუსი', map: 'https://maps.app.goo.gl/jbrcrqgw7hZk2UHKA' }
-    ],
-    calendar: { title: 'ოქტომბერი', year: '2026', button: 'თარიღის შენახვა' },
-    finale: { firstName: 'ნუკრი', secondName: 'მეგი', hint: 'გაასრიალეთ მარცხნივ ან მარჯვნივ' },
-    rsvp: { title: 'იქნებით ჩვენთან?', intro: 'გვითხარით, ვინ გაგვიზიარებს ამ დღეს.\nშეგიძლიათ ოჯახის წევრებიც დაამატოთ.', addGuest: 'ოჯახის წევრის დამატება', submit: 'პასუხის გაგზავნა', privacy: 'თქვენს პასუხს მხოლოდ ორგანიზატორები ნახავენ.', successTitle: 'მადლობა პასუხისთვის', successNote: 'თქვენი პასუხი შენახულია.', organizerEmail: 'nukri@example.com' },
-    theme: { accent: '#7b9a72', paper: '#faf7ef', ink: '#354336' },
-    layout: { offsets: {} },
-    customText: []
-  };
+  "version": 1,
+  "opening": {
+    "enabled": true,
+    "label": "დიდი სიხარულით გიწვევთ ჩვენი   ბედნიერების საზეიმო საღამოზე",
+    "aria": "დიდი სიხარულით გიწვევთ ჩვენი   ბედნიერების საზეიმო საღამოზე— მოსაწვევის გახსნა"
+  },
+  "hero": {
+    "invitation": "",
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "weekday": "",
+    "day": "",
+    "month": "",
+    "year": "",
+    "isoDate": "2026-10-15"
+  },
+  "story": {
+    "dedication": "",
+    "title": "გვინდა თქვენი მობრძანებით კიდევ უფრო სასიამოვნო და დაუვიწყარი გავხადოთ ეს განსაკუთრებული დღე",
+    "body": "",
+    "signature": ""
+  },
+  "countdown": {
+    "title": "15 ოქტომბერი 2026",
+    "label": ""
+  },
+  "program": {
+    "title": ""
+  },
+  "events": [
+    {
+      "time": "18:00",
+      "title": "რესტორანი გრინ ჰაუსი",
+      "venue": "",
+      "map": "https://maps.app.goo.gl/BRqukrnV2iHShZTJ7?g_st=ic"
+    }
+  ],
+  "calendar": {
+    "title": "ოქტომბერი",
+    "year": "2026",
+    "button": ""
+  },
+  "finale": {
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "hint": ""
+  },
+  "rsvp": {
+    "title": "დაგვიდასტურეთ მობრძანება",
+    "intro": "გთხოვთ დაგვიდასტუროთ დასწრება 5 ოქტომბრამდე",
+    "addGuest": "ოჯახის წევრის დამატება",
+    "submit": "პასუხის გაგზავნა",
+    "privacy": "თქვენს პასუხს მხოლოდ ორგანიზატორები ნახავენ.",
+    "successTitle": "მადლობა პასუხისთვის",
+    "successNote": "თქვენი პასუხი შენახულია.",
+    "organizerEmail": "nukri.kobaladze.77@gmail.com"
+  },
+  "theme": {
+    "accent": "#7b9a72",
+    "paper": "#faf7ef",
+    "ink": "#354336"
+  },
+  "layout": {
+    "offsets": {}
+  },
+  "customText": []
+};
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const clone = value => JSON.parse(JSON.stringify(value));
@@ -30,7 +79,7 @@
   }
   function load() { try { return merge(DEFAULT, JSON.parse(localStorage.getItem(KEY) || 'null')); } catch { return clone(DEFAULT); } }
   let published = clone(DEFAULT), revision = null, available = false;
-  try { const response = await fetch('/api/site-content',{cache:'no-store'}); if(!response.ok) throw new Error(); const data=await response.json();published=merge(DEFAULT,data.config);revision=data.revision;available=true; } catch {}
+  try { const response = await fetch('/api/site-content',{cache:'no-store'}); if(!response.ok) throw new Error(); const data=await response.json();published=merge(DEFAULT,data.config);revision=data.revision;available=data.publishingEnabled!==false; } catch {}
   let saved; try { saved=JSON.parse(localStorage.getItem(KEY)||'null'); } catch {}
   let state = saved ? merge(published,saved) : clone(published), saveTimer;
   const loginScreen = $('#login-screen'), app = $('#admin-app'), preview = $('#preview'), status = $('#save-status'), previewFallback = $('#preview-fallback');

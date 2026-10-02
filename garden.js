@@ -326,7 +326,8 @@
   });
   window.addEventListener('resize',refreshGardenLayout);
   const configuredDate=window.NM_CONFIG?.hero?.isoDate||'2026-10-15';
-  const weddingDate=new Date(`${configuredDate}T14:00:00+04:00`).getTime();
+  const weddingTime=window.NM_CONFIG?.events?.find(event=>event.time)?.time || '18:00';
+  const weddingDate=new Date(`${configuredDate}T${weddingTime}:00+04:00`).getTime();
   function countdown() {
     const now=Date.now(), seconds=Math.max(0,Math.floor((weddingDate-now)/1000));
     const values={days:Math.floor(seconds/86400),hours:Math.floor(seconds%86400/3600),minutes:Math.floor(seconds%3600/60),seconds:seconds%60};

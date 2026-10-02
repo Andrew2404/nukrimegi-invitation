@@ -38,5 +38,12 @@ function createHandler(storage, expectedHash = auth.sha256) {
     }
   };
 }
-module.exports = async (req,res) => createHandler(await import('@vercel/blob'))(req,res);
+module.exports = async (req,res) => {
+  if(!process.env.BLOB_READ_WRITE_TOKEN) {
+    res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json; charset=utf-8');
+    res.statusCode=req.method==='GET'?200:503;
+    return res.end(JSON.stringify(req.method==='GET'?{config:defaults,revision:null,publishingEnabled:false}:{error:'გამოქვეყნების საცავი ჯერ არ არის დაკავშირებული.'}));
+  }
+  return createHandler(await import('@vercel/blob'))(req,res);
+};
 module.exports.createHandler = createHandler;

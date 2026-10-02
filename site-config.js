@@ -2,54 +2,73 @@
 window.NM_CONFIG_READY = (async () => {
   const KEY = 'nukrimegi-site-config-v1';
   const base = {
-    version: 1,
-    opening: {
-      enabled: true,
-      label: 'თქვენ რჩეულ\nსტუმრებს შორის\nხართ',
-      aria: 'თქვენ რჩეულ სტუმრებს შორის ხართ — მოსაწვევის გახსნა'
-    },
-    hero: {
-      invitation: 'გეპატიჟებით ჩვენი\nსიყვარულის დღეს',
-      firstName: 'ნუკრი',
-      secondName: 'მეგი',
-      weekday: 'ხუთშაბათი',
-      day: '15',
-      month: 'ოქტომბერი',
-      year: '2026',
-      isoDate: '2026-10-15'
-    },
-    story: {
-      dedication: 'თქვენთვის, სიყვარულით',
-      title: 'ერთად იწყება\nჩვენი ახალი ამბავი',
-      body: 'ჩვენი ბედნიერება კიდევ უფრო დიდი იქნება,\nთუ ამ განსაკუთრებულ დღეს ჩვენთან ერთად გაატარებთ.',
-      signature: 'სიყვარულით, ნუკრი & მეგი'
-    },
-    countdown: { title: 'ჩვენს დღემდე', label: 'ქორწილამდე დარჩენილი დრო' },
-    program: { title: 'ჩვენი დღის ამბავი' },
-    events: [
-      { time: '14:00', title: 'ჯვრისწერა', venue: 'მეფე თამარის ტაძარი', map: 'https://maps.app.goo.gl/852rJtv9zc7Wk15cA' },
-      { time: '17:00', title: 'ხელის მოწერის\nცერემონია', venue: 'გონიოს ციხე', map: 'https://www.google.com/maps/search/?api=1&query=Gonio%20Fortress%20Georgia' },
-      { time: '18:00', title: 'ქორწილი', venue: 'რესტორანი გრინ ჰაუსი', map: 'https://maps.app.goo.gl/jbrcrqgw7hZk2UHKA' }
-    ],
-    calendar: { title: 'ოქტომბერი', year: '2026', button: 'თარიღის შენახვა' },
-    finale: { firstName: 'ნუკრი', secondName: 'მეგი', hint: 'გაასრიალეთ მარცხნივ ან მარჯვნივ' },
-    rsvp: {
-      title: 'იქნებით ჩვენთან?',
-      intro: 'გვითხარით, ვინ გაგვიზიარებს ამ დღეს.\nშეგიძლიათ ოჯახის წევრებიც დაამატოთ.',
-      addGuest: 'ოჯახის წევრის დამატება',
-      submit: 'პასუხის გაგზავნა',
-      privacy: 'თქვენს პასუხს მხოლოდ ორგანიზატორები ნახავენ.',
-      successTitle: 'მადლობა პასუხისთვის',
-      successNote: 'თქვენი პასუხი შენახულია.',
-      organizerEmail: 'nukri@example.com'
-    },
-    theme: { accent: '#7b9a72', paper: '#faf7ef', ink: '#354336' },
-    layout: {
-      offsets: {}
-    },
-    customText: []
-  };
-
+  "version": 1,
+  "opening": {
+    "enabled": true,
+    "label": "დიდი სიხარულით გიწვევთ ჩვენი   ბედნიერების საზეიმო საღამოზე",
+    "aria": "დიდი სიხარულით გიწვევთ ჩვენი   ბედნიერების საზეიმო საღამოზე— მოსაწვევის გახსნა"
+  },
+  "hero": {
+    "invitation": "",
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "weekday": "",
+    "day": "",
+    "month": "",
+    "year": "",
+    "isoDate": "2026-10-15"
+  },
+  "story": {
+    "dedication": "",
+    "title": "გვინდა თქვენი მობრძანებით კიდევ უფრო სასიამოვნო და დაუვიწყარი გავხადოთ ეს განსაკუთრებული დღე",
+    "body": "",
+    "signature": ""
+  },
+  "countdown": {
+    "title": "15 ოქტომბერი 2026",
+    "label": ""
+  },
+  "program": {
+    "title": ""
+  },
+  "events": [
+    {
+      "time": "18:00",
+      "title": "რესტორანი გრინ ჰაუსი",
+      "venue": "",
+      "map": "https://maps.app.goo.gl/BRqukrnV2iHShZTJ7?g_st=ic"
+    }
+  ],
+  "calendar": {
+    "title": "ოქტომბერი",
+    "year": "2026",
+    "button": ""
+  },
+  "finale": {
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "hint": ""
+  },
+  "rsvp": {
+    "title": "დაგვიდასტურეთ მობრძანება",
+    "intro": "გთხოვთ დაგვიდასტუროთ დასწრება 5 ოქტომბრამდე",
+    "addGuest": "ოჯახის წევრის დამატება",
+    "submit": "პასუხის გაგზავნა",
+    "privacy": "თქვენს პასუხს მხოლოდ ორგანიზატორები ნახავენ.",
+    "successTitle": "მადლობა პასუხისთვის",
+    "successNote": "თქვენი პასუხი შენახულია.",
+    "organizerEmail": "nukri.kobaladze.77@gmail.com"
+  },
+  "theme": {
+    "accent": "#7b9a72",
+    "paper": "#faf7ef",
+    "ink": "#354336"
+  },
+  "layout": {
+    "offsets": {}
+  },
+  "customText": []
+};
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
   }
@@ -118,12 +137,17 @@ window.NM_CONFIG_READY = (async () => {
   const countdown = document.querySelector('.countdown');
   if (countdown) countdown.setAttribute('aria-label', config.countdown.label || base.countdown.label);
   setText('#program-title', config.program.title);
-  setText('.countdown-date-main', `${config.hero.day} ${config.hero.month}`);
-  setText('.countdown-date-year', config.hero.year);
-  const title = `${config.hero.firstName} & ${config.hero.secondName} — ${config.hero.day} ${config.hero.month}, ${config.hero.year}`;
+  const actualDate = new Date(config.hero.isoDate+'T12:00:00Z');
+  const displayDay = config.hero.day || String(actualDate.getUTCDate());
+  const displayMonth = config.hero.month || ['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'][actualDate.getUTCMonth()];
+  const displayYear = config.hero.year || String(actualDate.getUTCFullYear());
+  if(config.countdown.title.trim() === [displayDay,displayMonth,displayYear].join(' ')) document.querySelector('#countdown-title').hidden=true;
+  setText('.countdown-date-main', `${displayDay} ${displayMonth}`);
+  setText('.countdown-date-year', displayYear);
+  const title = `${config.hero.firstName} & ${config.hero.secondName} — ${displayDay} ${displayMonth}, ${displayYear}`;
   document.title = title;
-  setMeta('meta[name="description"]', `${config.hero.firstName} & ${config.hero.secondName} — ${config.hero.day} ${config.hero.month}, ${config.hero.year}.`);
-  setMeta('meta[property="og:title"]', `${config.hero.firstName} & ${config.hero.secondName} • ${config.hero.day} ${config.hero.month}`);
+  setMeta('meta[name="description"]', `${config.hero.firstName} & ${config.hero.secondName} — ${displayDay} ${displayMonth}, ${displayYear}.`);
+  setMeta('meta[property="og:title"]', `${config.hero.firstName} & ${config.hero.secondName} • ${displayDay} ${displayMonth}`);
 
   const eventList = document.querySelector('.events');
   const escape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
@@ -170,6 +194,10 @@ window.NM_CONFIG_READY = (async () => {
   setText('#rsvp-success h3', config.rsvp.successTitle);
   setText('.success-note', config.rsvp.successNote);
 
+  for (const selector of ['.invitation-line','.small-dedication','.welcome .section-content h2','.welcome .section-content > p','.welcome .signature','#countdown-title','#program-title','.event-details h3','.event-details p','.calendar-button']) {
+    document.querySelectorAll(selector).forEach(el=>{if(!el.textContent.trim())el.hidden=true;});
+  }
+  if(!config.finale.hint.trim()) document.querySelector('.finale-scroll-note').hidden=true;
   const layoutStyle = document.createElement('style');
   Object.entries(config.theme || {}).forEach(([key, value]) => { if (value) html.style.setProperty(`--nm-${key}`, value); });
   if (config.theme) layoutStyle.textContent += `:root{--nm-accent:${config.theme.accent || base.theme.accent};--nm-paper:${config.theme.paper || base.theme.paper};--nm-ink:${config.theme.ink || base.theme.ink}}body{background:var(--nm-paper);color:var(--nm-ink)}a,.map-link,.calendar-button{color:var(--nm-accent)}.submit-rsvp,.add-guest{border-color:var(--nm-accent)}`;
