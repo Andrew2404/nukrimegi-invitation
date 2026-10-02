@@ -306,6 +306,7 @@
       gs.set($$('[data-intro-text]'),{opacity:0,y:10});
     }
     enter.addEventListener('click',enterGarden);
+    enter.disabled=false;
   } else {gate.hidden=true;observeGarden();}
   $('.skip-link').addEventListener('click',()=>{if(intro)intro.kill();revealAll();});
   reduce.addEventListener('change',()=>{

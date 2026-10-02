@@ -1,5 +1,7 @@
 'use strict';
 window.NM_CONFIG_READY = (async () => {
+  const openingButton = document.querySelector('#enter-garden');
+  if (openingButton) openingButton.disabled = true;
   const KEY = 'nukrimegi-site-config-v1';
   const base = {
   "version": 1,
