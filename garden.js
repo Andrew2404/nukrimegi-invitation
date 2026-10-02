@@ -123,8 +123,18 @@
     const heroHeight=$('.hero').getBoundingClientRect().height;
     $('.reflection-art').style.height=`${heroHeight}px`;
     const height=story.getBoundingClientRect().height,step=innerWidth<600?158:200;
-    const venue=$('.program:has(.venue-art)'),storyTop=story.getBoundingClientRect().top;
-    const venueBounds=venue?.getBoundingClientRect();
+    // Subtract the illustration's alpha silhouette from each edge garden.
+    // Layout offsets ignore temporary scroll-reveal transforms on its map link.
+    const venue=$('.venue-art');
+    const layoutPosition=element=>{let x=0,y=0;for(let node=element;node;node=node.offsetParent){x+=node.offsetLeft;y+=node.offsetTop;}return {x,y};};
+    $$('.garden-border',story).forEach(border=>{
+      border.classList.toggle('venue-clear',!!venue);
+      if(!venue)return;
+      const artPosition=layoutPosition(venue),borderPosition=layoutPosition(border);
+      border.style.setProperty('--venue-mask',`url("${venue.getAttribute('src')}")`);
+      border.style.setProperty('--venue-mask-size',`${venue.offsetWidth}px ${venue.offsetHeight}px`);
+      border.style.setProperty('--venue-mask-position',`${artPosition.x-borderPosition.x}px ${artPosition.y-borderPosition.y}px`);
+    });
     if(Math.abs(height-borderHeight)<3&&step===borderStep)return;
     borderHeight=height;borderStep=step;
     borderAnimations.forEach(tl=>{tl.scrollTrigger?.kill();tl.kill();});borderAnimations=[];
@@ -140,8 +150,6 @@
         const slot=document.createElement('span');slot.className='border-slot';slot.style.top=`${slotTop}px`;
         const kind=kinds[(i+side*2)%kinds.length];
         slot.innerHTML=`<span class="grow-art foliage" style="--lean:${(i%3-1)*13+side*7}deg"><img src="/assets/flowers/greenery.webp" width="640" height="960" alt="" loading="lazy" decoding="async"></span><span class="grow-art border-flower" style="--lean:${(side?-1:1)*(12+i%3*8)}deg"><img src="/assets/flowers/${kind}.webp" width="640" height="960" alt="" loading="lazy" decoding="async"></span>`;
-        // Retain the clusters so the venue framing can be restored later.
-        if(venueBounds&&slotTop+slotHeight>venueBounds.top-storyTop-24&&slotTop<venueBounds.bottom-storyTop+24)slot.dataset.venueOverlap='true';
         border.append(slot);
         let echo;
         if(i===lastLayer){
