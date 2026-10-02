@@ -183,3 +183,16 @@ footer{min-height:460px;padding:82px 30px 250px;text-align:center;overflow:hidde
  .finale-scroll-note{padding-inline:18px}.finale-scroll-note>p{font-size:12px;padding:10px 12px;gap:8px}
 }
 html.lenis,html.lenis body{scroll-behavior:auto!important}
+
+/* Published refinements requested by the couple. */
+.hero-scroll{display:flex;align-items:center;justify-content:center;width:48px;height:60px;margin:24px auto 0;text-decoration:none}
+.hero-scroll .scroll-stem{height:36px;width:2px;background:var(--nm-ink,var(--ink))}
+.hero-scroll .scroll-stem:after{width:10px;height:10px;left:-4px;border-width:2px;border-color:var(--nm-ink,var(--ink))}
+.countdown-date{display:flex;flex-direction:column;align-items:center;gap:8px;margin:0 0 28px;font-family:var(--serif);color:var(--ink)}
+.countdown-date-main{font-size:clamp(30px,8vw,44px);line-height:1.4}
+.countdown-date-year{font:24px/1.4 Georgia,serif;letter-spacing:3px}
+.countdown-section{padding-bottom:24px}
+.program{padding-top:24px}
+.events{margin-top:16px}
+.events li{padding:20px 0}
+@media(max-width:600px){.countdown-section{padding-bottom:18px}.program{padding-top:18px}.events li{padding:16px 0}}

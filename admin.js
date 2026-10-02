@@ -78,7 +78,7 @@
   function renderAll() { bindFields(); renderEvents(); renderOffsets(); renderCustomText(); }
   function showApp() { if (loginScreen) loginScreen.hidden = true; app.hidden = false; renderAll(); }
   $$('.nav-item').forEach(button => button.addEventListener('click', () => { $$('.nav-item').forEach(item => item.classList.toggle('is-active', item === button)); $$('.editor-section').forEach(section => { section.hidden = section.dataset.sectionPanel !== button.dataset.section; section.classList.toggle('is-active', !section.hidden); }); }));
-  $('#save').addEventListener('click', () => { saveDraft(); stamp('ყველა ცვლილება შენახულია.'); });
+  $('#save').addEventListener('click', () => { saveDraft(); stamp('შენახულია მხოლოდ ამ ბრაუზერში — საიტზე ჯერ არ გამოქვეყნებულა.'); });
   $('#add-event').addEventListener('click', () => { state.events.push({ time: '', title: '', venue: '', map: '' }); renderEvents(); saveDraft(); });
   $('#add-custom-text').addEventListener('click', () => { state.customText.push({ text: 'ახალი ტექსტი', x: 50, y: 300, size: 18, color: '#354336', rotate: 0, z: 3 }); renderCustomText(); saveDraft(); });
   $('#export').addEventListener('click', () => { const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `nukrimegi-invitation-${new Date().toISOString().slice(0, 10)}.json`; link.click(); URL.revokeObjectURL(link.href); stamp('კონფიგურაცია ჩამოიტვირთა.'); });

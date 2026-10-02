@@ -112,7 +112,8 @@
   const countdown = document.querySelector('.countdown');
   if (countdown) countdown.setAttribute('aria-label', config.countdown.label || base.countdown.label);
   setText('#program-title', config.program.title);
-  setText('.program .section-intro', `${config.hero.day} ${config.hero.month}, ${config.hero.year}`);
+  setText('.countdown-date-main', `${config.hero.day} ${config.hero.month}`);
+  setText('.countdown-date-year', config.hero.year);
   const title = `${config.hero.firstName} & ${config.hero.secondName} — ${config.hero.day} ${config.hero.month}, ${config.hero.year}`;
   document.title = title;
   setMeta('meta[name="description"]', `${config.hero.firstName} & ${config.hero.secondName} — ${config.hero.day} ${config.hero.month}, ${config.hero.year}.`);

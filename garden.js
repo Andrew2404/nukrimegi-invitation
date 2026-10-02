@@ -52,7 +52,7 @@
     if(textReady||!gs||!ST)return;textReady=true;
     const groups=[
       ['.welcome h2','.welcome h2,.welcome .small-dedication,.welcome .section-content>p:not(.small-dedication)'],
-      ['#countdown-title','#countdown-title,.countdown'],
+      ['#countdown-title','#countdown-title,.countdown-date,.countdown'],
       ['#program-title','#program-title,.program .section-intro'],
       ...$$('.events li').map(row=>[row,[$('.event-time',row),$('.event-details h3',row),$('.event-details p',row),$('.map-link',row)]]),
       ['#calendar-title','#calendar-title,.calendar-year,.calendar,.calendar-button'],
