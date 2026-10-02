@@ -53,8 +53,8 @@
     if(textReady||!gs||!ST)return;textReady=true;
     const groups=[
       ['.welcome h2','.welcome h2,.welcome .small-dedication,.welcome .section-content>p:not(.small-dedication)'],
-      ['#countdown-title','#countdown-title,.countdown-date,.countdown'],
-      ['#program-title','#program-title,.program .section-intro'],
+      ['.countdown-date','#countdown-title,.countdown-date,.countdown'],
+      ['.events','#program-title,.program .section-intro'],
       ...$$('.events li').map(row=>[row,[$('.event-time',row),$('.event-details h3',row),$('.event-details p',row),$('.map-link',row)]]),
       ['#calendar-title','#calendar-title,.calendar-year,.calendar,.calendar-button'],
       ['#rsvp-title','#rsvp-title,.rsvp-intro,#rsvp-form'],
@@ -63,6 +63,7 @@
     for(const [target,content] of groups){
       const trigger=typeof target==='string'?$(target):target;
       const items=(typeof content==='string'?$$(content):content).filter(el=>el&&!el.hidden);
+      if(!trigger||!items.length)continue;
       // Headings lead; supporting copy follows in a short stagger.
       if(items.includes(trigger)){items.splice(items.indexOf(trigger),1);items.unshift(trigger);}
       const group={trigger,items,done:false};textReveals.push(group);
@@ -185,7 +186,7 @@
   function dismissGardenHint(){
     if(hintDismissed)return;
     hintDismissed=true;
-    const hint=$('.finale-scroll-note');
+    const hint=$('.finale-scroll-note');if(!hint)return;
     if(gs&&!reduce.matches)gs.to(hint,{opacity:0,y:6,duration:.45,onComplete:()=>{hint.hidden=true;}});
     else hint.hidden=true;
   }
@@ -249,17 +250,6 @@
       event.preventDefault();dismissGardenHint();turnGarden(angle+(event.key==='ArrowRight'?15:-15));
     }
   });
-  let journey;
-  function stopJourney(){journey?.kill();journey=null;}
-  ['wheel','touchstart','pointerdown','keydown'].forEach(type=>window.addEventListener(type,stopJourney,{passive:true}));
-  $('.hero-rsvp').addEventListener('click',event=>{
-    event.preventDefault();stopJourney();
-    const target=$('#rsvp'),destination=target.getBoundingClientRect().top+scrollY-30;
-    const finish=()=>{target.setAttribute('tabindex','-1');target.focus({preventScroll:true});history.replaceState(null,'','#rsvp');journey=null;};
-    if(!gs||reduce.matches){window.scrollTo({top:destination,behavior:'instant'});finish();return;}
-    const position={y:scrollY};
-    journey=gs.to(position,{y:destination,duration:Math.min(9,Math.max(5,Math.abs(destination-scrollY)/390)),ease:'power1.inOut',onUpdate:()=>{if(lenis)lenis.scrollTo(position.y,{immediate:true});else window.scrollTo({top:position.y,behavior:'instant'});},onComplete:finish});
-  });
   // Each cutout starts transparent, including on an uncached first visit.
   $$('.gate-sprig').forEach((sprig,i)=>{
     sprig.style.setProperty('--arrival-delay',`${i*.095}s`);
@@ -306,7 +296,7 @@
     intro.to($$('.letter',names[0]),{opacity:1,y:0,filter:'blur(0px)',duration:.4,stagger:.12},1.25)
       .to($('.hero h1 i'),{opacity:1,scale:1,duration:.65},2.05)
       .to($$('.letter',names[1]),{opacity:1,y:0,filter:'blur(0px)',duration:.4,stagger:.12},2.35)
-      .to($('.invitation-line'),{opacity:1,y:0,duration:1.1},.65)
+      .to($$('.invitation-line'),{opacity:1,y:0,duration:1.1},.65)
       .to($$('[data-intro-text]:not(.invitation-line)'),{opacity:1,y:0,duration:.85,stagger:.16},3.15);
   }
   $$('.name-line').forEach(line=>{
@@ -325,7 +315,7 @@
       gs.set($('.hero h1 i'),{opacity:0,scale:.85});
       gs.set($$('[data-intro-text]'),{opacity:0,y:10});
     }
-    enter.addEventListener('click',enterGarden);
+    gate.addEventListener('click',()=>{if(!enter.disabled)enterGarden();});
     enter.disabled=false;
   } else {gate.hidden=true;observeGarden();}
   $('.skip-link').addEventListener('click',()=>{if(intro)intro.kill();revealAll();});
@@ -333,7 +323,7 @@
     configureScroll();
     if(reduce.matches){
       textReveals.forEach(group=>{group.done=false;revealText(group,true);});
-      stopJourney();
+
       if(intro)intro.kill();if(opening)revealAll();
       borderAnimations.forEach(tl=>{tl.scrollTrigger?.kill();tl.kill();});borderAnimations=[];
       if(finaleTimeline){finaleTimeline.scrollTrigger?.kill();finaleTimeline.kill();finaleTimeline=null;}
@@ -354,7 +344,7 @@
     const now=Date.now(), seconds=Math.max(0,Math.floor((weddingDate-now)/1000));
     const values={days:Math.floor(seconds/86400),hours:Math.floor(seconds%86400/3600),minutes:Math.floor(seconds%3600/60),seconds:seconds%60};
     Object.entries(values).forEach(([id,value])=>$('#'+id).textContent=String(value).padStart(2,'0'));
-    if(!seconds){$('#countdown-title').textContent=now<weddingDate+36000000?'ჩვენი დღე დადგა':'ჩვენი სიყვარულის დღე';}
+    if(!seconds&&$('#countdown-title')){$('#countdown-title').textContent=now<weddingDate+36000000?'ჩვენი დღე დადგა':'ჩვენი სიყვარულის დღე';}
   }
   countdown();setInterval(()=>{if(!document.hidden)countdown();},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)countdown();});

@@ -84,12 +84,6 @@ window.NM_CONFIG_READY = (async () => {
     }
     return savedValue ?? baseValue;
   }
-  function read() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-      return merge(base, saved);
-    } catch { return clone(base); }
-  }
   let published = base;
   try {
     const response = await fetch('/api/site-content', {cache:'no-store',signal:AbortSignal.timeout(5000)});
@@ -100,6 +94,16 @@ window.NM_CONFIG_READY = (async () => {
   window.NM_DEFAULT_CONFIG = clone(base);
   window.NM_CONFIG = config;
 
+  // Optional editor fields are created only when they contain published text.
+  const optionalFields = [{"key":"hero.invitation","selector":".invitation-line","parent":".hero-content","before":"#couple-title","html":"<p class=\"invitation-line\" data-intro-text=\"\"></p>"},{"key":"story.dedication","selector":".small-dedication","parent":".welcome .section-content","before":"h2","html":"<p class=\"small-dedication\"></p>"},{"key":"countdown.title","selector":"#countdown-title","parent":".countdown-face","before":".countdown-date","html":"<h2 id=\"countdown-title\"></h2>"},{"key":"program.title","selector":"#program-title","parent":".program .section-content","before":".events","html":"<h2 id=\"program-title\"></h2>"},{"key":"calendar.button","selector":".calendar-button","parent":".calendar-paper","before":null,"html":"<a class=\"calendar-button\" href=\"https://calendar.google.com/calendar/render?action=TEMPLATE\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"თარიღის შენახვა Google Calendar-ში\"></a>"},{"key":"finale.hint","selector":".finale-scroll-note","parent":".finale-stage","before":null,"html":"<div class=\"finale-scroll-note\"><p id=\"swipe-hint\"><span aria-hidden=\"true\">←</span> <span class=\"touch-hint\"></span><span class=\"mouse-hint\"></span> <span aria-hidden=\"true\">→</span></p></div>"},{"key":"story.body","parent":".welcome .section-content","html":"<p class=\"story-body\"></p>"},{"key":"story.signature","parent":".welcome .section-content","html":"<p class=\"signature\"></p>"}];
+  for (const field of optionalFields) {
+    const [section,key]=field.key.split('.');
+    if (!String(config[section]?.[key]||'').trim()) continue;
+    if (field.key==='countdown.title' && config.countdown.title===base.countdown.title) continue;
+    const parent=document.querySelector(field.parent);if(!parent)continue;
+    const template=document.createElement('template');template.innerHTML=field.html;
+    parent.insertBefore(template.content,parent.querySelector(field.before||':not(*)'));
+  }
   const html = document.documentElement;
   const setText = (selector, value, root = document) => {
     const element = root.querySelector(selector);
@@ -127,13 +131,9 @@ window.NM_CONFIG_READY = (async () => {
   setText('.name-line:nth-of-type(1)', config.hero.firstName);
   setText('#couple-title .name-line:first-of-type', config.hero.firstName);
   setText('#couple-title .name-line:last-of-type', config.hero.secondName);
-  setText('.date-lockup span:first-child', config.hero.weekday);
-  setText('.date-lockup strong', config.hero.day);
-  setText('.date-lockup span:last-child', config.hero.month);
-  setText('.year', config.hero.year);
   setText('.small-dedication', config.story.dedication);
   setBreakText('.welcome .section-content h2', config.story.title);
-  setBreakText('.welcome .section-content > p:nth-of-type(2)', config.story.body);
+  setBreakText('.story-body', config.story.body);
   setText('.welcome .signature', config.story.signature);
   setText('#countdown-title', config.countdown.title);
   const countdown = document.querySelector('.countdown');
@@ -143,7 +143,7 @@ window.NM_CONFIG_READY = (async () => {
   const displayDay = config.hero.day || String(actualDate.getUTCDate());
   const displayMonth = config.hero.month || ['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'][actualDate.getUTCMonth()];
   const displayYear = config.hero.year || String(actualDate.getUTCFullYear());
-  if(config.countdown.title.trim() === [displayDay,displayMonth,displayYear].join(' ')) document.querySelector('#countdown-title').hidden=true;
+  if(config.countdown.title.trim() === [displayDay,displayMonth,displayYear].join(' ')) document.querySelector('#countdown-title')?.remove();
   setText('.countdown-date-main', `${displayDay} ${displayMonth}`);
   setText('.countdown-date-year', displayYear);
   const title = `${config.hero.firstName} & ${config.hero.secondName} — ${displayDay} ${displayMonth}, ${displayYear}`;
@@ -159,7 +159,7 @@ window.NM_CONFIG_READY = (async () => {
       const title = escape(event.title || '').replace(/\n/g, '<br>');
       const venue = escape(event.venue || '');
       const map = escape(event.map || '#');
-      return `<li><div class="event-time"><time datetime="${escape(config.hero.isoDate || '2026-10-15')}T${time}:00+04:00">${time}</time></div><div class="event-details"><h3>${title}</h3><p>${venue}</p><a class="map-link" data-venue="custom-${index}" href="${map}" target="_blank" rel="noopener noreferrer">რუკაზე ნახვა <span aria-hidden="true">↗</span></a></div></li>`;
+      return `<li><div class="event-time"><time datetime="${escape(config.hero.isoDate || '2026-10-15')}T${time}:00+04:00">${time}</time></div><div class="event-details">${title?`<h3>${title}</h3>`:''}${venue?`<p>${venue}</p>`:''}<a class="map-link" data-venue="custom-${index}" href="${map}" target="_blank" rel="noopener noreferrer">${/BRqukrnV2iHShZTJ7/.test(event.map||'')?'<img class="venue-art" src="/assets/green-house-watercolor.png" width="1536" height="1024" loading="lazy" decoding="async" alt="გრინ ჰაუსის აკვარელი — რუკის გახსნა">':''}<span class="map-caption">რუკაზე ნახვა <span aria-hidden="true">↗</span></span></a></div></li>`;
     }).join('');
   }
   setText('#calendar-title', config.calendar.title);
@@ -199,7 +199,7 @@ window.NM_CONFIG_READY = (async () => {
   for (const selector of ['.invitation-line','.small-dedication','.welcome .section-content h2','.welcome .section-content > p','.welcome .signature','#countdown-title','#program-title','.event-details h3','.event-details p','.calendar-button']) {
     document.querySelectorAll(selector).forEach(el=>{if(!el.textContent.trim())el.hidden=true;});
   }
-  if(!config.finale.hint.trim()) document.querySelector('.finale-scroll-note').hidden=true;
+  if(!config.finale.hint.trim()) document.querySelector('.finale-scroll-note')?.remove();
   const layoutStyle = document.createElement('style');
   Object.entries(config.theme || {}).forEach(([key, value]) => { if (value) html.style.setProperty(`--nm-${key}`, value); });
   if (config.theme) layoutStyle.textContent += `:root{--nm-accent:${config.theme.accent || base.theme.accent};--nm-paper:${config.theme.paper || base.theme.paper};--nm-ink:${config.theme.ink || base.theme.ink}}body{background:var(--nm-paper);color:var(--nm-ink)}a,.map-link,.calendar-button{color:var(--nm-accent)}.submit-rsvp,.add-guest{border-color:var(--nm-accent)}`;
