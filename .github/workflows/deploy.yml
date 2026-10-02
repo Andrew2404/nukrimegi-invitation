@@ -25,6 +25,16 @@ jobs:
         run: npm install --global vercel@62.1.0
       - name: Pull production settings
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Ensure invitation publishing storage
+        run: |
+          if ! grep -q '^BLOB_READ_WRITE_TOKEN=' .vercel/.env.production.local; then
+            vercel blob create-store nukrimegi-content --access private --yes --environment production --token="$VERCEL_TOKEN" > /tmp/blob-setup.log 2>&1 || { echo "Blob setup failed; check project storage permissions."; exit 1; }
+            vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+          fi
+      - name: Install and test
+        run: |
+          npm ci
+          node --test tests/*.test.cjs
       - name: Build
         run: vercel build --prod --token="$VERCEL_TOKEN"
       - name: Deploy

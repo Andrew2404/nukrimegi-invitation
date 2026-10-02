@@ -1,5 +1,6 @@
 'use strict';
-(() => {
+(async () => {
+  await window.NM_CONFIG_READY;
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -334,7 +335,8 @@
   }
   countdown();setInterval(()=>{if(!document.hidden)countdown();},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)countdown();});
-  for(let index=0;index<35;index++){const span=document.createElement('span'),day=index-2;if(day>0&&day<=31)span.textContent=day;if(day===15)span.className='wedding-day';$('#calendar-days').append(span);}
+  const calendarDate=new Date(configuredDate+'T12:00:00Z'),firstDay=new Date(Date.UTC(calendarDate.getUTCFullYear(),calendarDate.getUTCMonth(),1)),offset=(firstDay.getUTCDay()+6)%7,total=new Date(Date.UTC(calendarDate.getUTCFullYear(),calendarDate.getUTCMonth()+1,0)).getUTCDate();
+  for(let index=0;index<Math.ceil((offset+total)/7)*7;index++){const span=document.createElement('span'),day=index-offset+1;if(day>0&&day<=total)span.textContent=day;if(day===calendarDate.getUTCDate())span.className='wedding-day';$('#calendar-days').append(span);}
 
   const form=$('#rsvp-form'), list=$('#guest-list'), add=$('#add-guest'), send=$('#send-rsvp'), success=$('#rsvp-success');
   const DRAFT='nm-rsvp-draft-v2', RECEIPT='nm-rsvp-receipt-v2';

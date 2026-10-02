@@ -1,5 +1,5 @@
 'use strict';
-(() => {
+window.NM_CONFIG_READY = (async () => {
   const KEY = 'nukrimegi-site-config-v1';
   const base = {
     version: 1,
@@ -69,7 +69,13 @@
       return merge(base, saved);
     } catch { return clone(base); }
   }
-  const config = read();
+  let published = base;
+  try {
+    const response = await fetch('/api/site-content', {cache:'no-store',signal:AbortSignal.timeout(5000)});
+    if (response.ok) published = merge(base, (await response.json()).config);
+  } catch {}
+  const isPreview = new URLSearchParams(location.search).has('preview') || location.hash === '#preview';
+  const config = isPreview ? merge(published, (() => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; } })()) : published;
   window.NM_DEFAULT_CONFIG = clone(base);
   window.NM_CONFIG = config;
 
@@ -168,7 +174,7 @@
   Object.entries(config.theme || {}).forEach(([key, value]) => { if (value) html.style.setProperty(`--nm-${key}`, value); });
   if (config.theme) layoutStyle.textContent += `:root{--nm-accent:${config.theme.accent || base.theme.accent};--nm-paper:${config.theme.paper || base.theme.paper};--nm-ink:${config.theme.ink || base.theme.ink}}body{background:var(--nm-paper);color:var(--nm-ink)}a,.map-link,.calendar-button{color:var(--nm-accent)}.submit-rsvp,.add-guest{border-color:var(--nm-accent)}`;
   const selectorMap = {
-    invitation: '.invitation-line', names: '#couple-title', date: '.date-lockup', year: '.year',
+    invitation: '.invitation-line', names: '#couple-title', date: '.countdown-date-main', year: '.countdown-date-year',
     rsvp: '#rsvp-title', program: '#program-title', welcome: '.welcome h2'
   };
   Object.entries(config.layout?.offsets || {}).forEach(([key, value]) => {

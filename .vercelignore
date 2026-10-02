@@ -16,3 +16,7 @@ assets/flowers/rose.png
 assets/flowers/daisies.png
 assets/flowers/greenery.png
 assets/flowers/wildflowers.png
+
+node_modules
+tests
+scripts

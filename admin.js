@@ -1,5 +1,5 @@
 'use strict';
-(() => {
+(async () => {
   const KEY = 'nukrimegi-site-config-v1';
   const DEFAULT = {
     version: 1,
@@ -29,7 +29,10 @@
     return saved ?? base;
   }
   function load() { try { return merge(DEFAULT, JSON.parse(localStorage.getItem(KEY) || 'null')); } catch { return clone(DEFAULT); } }
-  let state = load(), saveTimer;
+  let published = clone(DEFAULT), revision = null, available = false;
+  try { const response = await fetch('/api/site-content',{cache:'no-store'}); if(!response.ok) throw new Error(); const data=await response.json();published=merge(DEFAULT,data.config);revision=data.revision;available=true; } catch {}
+  let saved; try { saved=JSON.parse(localStorage.getItem(KEY)||'null'); } catch {}
+  let state = saved ? merge(published,saved) : clone(published), saveTimer;
   const loginScreen = $('#login-screen'), app = $('#admin-app'), preview = $('#preview'), status = $('#save-status'), previewFallback = $('#preview-fallback');
   if (location.protocol === 'https:' && preview && previewFallback) { preview.hidden = true; previewFallback.hidden = false; }
   function getPath(path) { return path.split('.').reduce((value, key) => value?.[key], state); }
@@ -86,5 +89,24 @@
   $('#reset').addEventListener('click', () => { if (!window.confirm('დავაბრუნო ყველა ტექსტი და განლაგება საწყისზე?')) return; state = clone(DEFAULT); saveDraft(); renderAll(); stamp('საწყისი კონფიგურაცია აღდგა.'); });
   $('#share-rsvp').addEventListener('click', () => { const email = state.rsvp.organizerEmail || 'nukri@example.com'; const subject = 'ნუკრი & მეგი — RSVP და მოსაწვევის მართვა'; const body = `გამარჯობა ნუკრი,\n\nაქ არის მოსაწვევი და RSVP-ის მართვის პანელი:\nhttps://nukrimegi.vercel.app/admin\n\nRSVP-ის გვერდი: https://nukrimegi.vercel.app/#rsvp\n\nცვლილებები პანელში შეგიძლია Export / Import-ით გადაიტანო.`; window.location.href = `mailto:${encodeURIComponent(email)}?${new URLSearchParams({ subject, body }).toString()}`; });
   document.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); saveDraft(); stamp(); } });
+  const publishButton = $('#publish');
+  publishButton.disabled = !available;
+  if(!available) status.textContent='გამოქვეყნების სერვისი მიუწვდომელია. განაახლეთ გვერდი.';
+  $('#publish-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const key=$('#publish-key').value.trim();
+    if(!key) { $('#publish-key').focus(); return; }
+    publishButton.disabled=true;
+    const snapshot=clone(state);
+    status.textContent='მიმდინარეობს გამოქვეყნება…';
+    try {
+      const response=await fetch('/api/site-content',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({config:snapshot,revision})});
+      const data=await response.json();
+      if(!response.ok) throw new Error(data.error || 'გამოქვეყნება ვერ მოხერხდა.');
+      revision=data.revision;published=snapshot;$('#publish-key').value='';
+      stamp('გამოქვეყნებულია — ცვლილებები ყველა სტუმრისთვის ჩანს.');
+    } catch(error) { status.textContent=error.message; }
+    finally { publishButton.disabled=false; }
+  });
   showApp();
 })();

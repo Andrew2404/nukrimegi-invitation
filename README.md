@@ -51,3 +51,9 @@ Configure these GitHub Actions secrets before using the workflow:
 - `VERCEL_PROJECT_ID`
 
 The workflow deploys only from `main` and never stores credentials in the repository.
+
+## Publishing from admin
+The admin Publish form writes validated content to a private Vercel Blob through api/site-content.js. Only the separate high-entropy publish key authorizes writes; its SHA-256 digest is stored in lib/publish-auth.json. The key itself is never committed. GET exposes invitation content only. Drafts stay in localStorage and apply only to explicit preview URLs. Writes use Blob ETags to reject stale revisions. The CI workflow creates and connects storage if needed. Tests run before deployment.
+
+When retiring admin, first export the live API config into the static defaults and frontend, then remove the admin pages and POST handler. Keep published storage and the GET reader until that migration is verified. To revoke publishing sooner, rotate the digest or remove the POST handler.
+

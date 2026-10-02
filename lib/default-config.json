@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "opening": {
+    "enabled": true,
+    "label": "თქვენ რჩეულ\nსტუმრებს შორის\nხართ",
+    "aria": "თქვენ რჩეულ სტუმრებს შორის ხართ — მოსაწვევის გახსნა"
+  },
+  "hero": {
+    "invitation": "გეპატიჟებით ჩვენი\nსიყვარულის დღეს",
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "weekday": "ხუთშაბათი",
+    "day": "15",
+    "month": "ოქტომბერი",
+    "year": "2026",
+    "isoDate": "2026-10-15"
+  },
+  "story": {
+    "dedication": "თქვენთვის, სიყვარულით",
+    "title": "ერთად იწყება\nჩვენი ახალი ამბავი",
+    "body": "ჩვენი ბედნიერება კიდევ უფრო დიდი იქნება,\nთუ ამ განსაკუთრებულ დღეს ჩვენთან ერთად გაატარებთ.",
+    "signature": "სიყვარულით, ნუკრი & მეგი"
+  },
+  "countdown": {
+    "title": "ჩვენს დღემდე",
+    "label": "ქორწილამდე დარჩენილი დრო"
+  },
+  "program": {
+    "title": "ჩვენი დღის ამბავი"
+  },
+  "events": [
+    {
+      "time": "14:00",
+      "title": "ჯვრისწერა",
+      "venue": "მეფე თამარის ტაძარი",
+      "map": "https://maps.app.goo.gl/852rJtv9zc7Wk15cA"
+    },
+    {
+      "time": "17:00",
+      "title": "ხელის მოწერის\nცერემონია",
+      "venue": "გონიოს ციხე",
+      "map": "https://www.google.com/maps/search/?api=1&query=Gonio%20Fortress%20Georgia"
+    },
+    {
+      "time": "18:00",
+      "title": "ქორწილი",
+      "venue": "რესტორანი გრინ ჰაუსი",
+      "map": "https://maps.app.goo.gl/jbrcrqgw7hZk2UHKA"
+    }
+  ],
+  "calendar": {
+    "title": "ოქტომბერი",
+    "year": "2026",
+    "button": "თარიღის შენახვა"
+  },
+  "finale": {
+    "firstName": "ნუკრი",
+    "secondName": "მეგი",
+    "hint": "გაასრიალეთ მარცხნივ ან მარჯვნივ"
+  },
+  "rsvp": {
+    "title": "იქნებით ჩვენთან?",
+    "intro": "გვითხარით, ვინ გაგვიზიარებს ამ დღეს.\nშეგიძლიათ ოჯახის წევრებიც დაამატოთ.",
+    "addGuest": "ოჯახის წევრის დამატება",
+    "submit": "პასუხის გაგზავნა",
+    "privacy": "თქვენს პასუხს მხოლოდ ორგანიზატორები ნახავენ.",
+    "successTitle": "მადლობა პასუხისთვის",
+    "successNote": "თქვენი პასუხი შენახულია.",
+    "organizerEmail": "nukri@example.com"
+  },
+  "theme": {
+    "accent": "#7b9a72",
+    "paper": "#faf7ef",
+    "ink": "#354336"
+  },
+  "layout": {
+    "offsets": {}
+  },
+  "customText": []
+}
