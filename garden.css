@@ -196,3 +196,39 @@ html.lenis,html.lenis body{scroll-behavior:auto!important}
 .events{margin-top:16px}
 .events li{padding:20px 0}
 @media(max-width:600px){.countdown-section{padding-bottom:18px}.program{padding-top:18px}.events li{padding:16px 0}}
+
+/* A botanical keepsake for the date, framed by the original watercolor artwork. */
+.hero-scroll{color:var(--ink)!important;width:52px;height:64px}
+.scroll-arrow{display:block;flex:none;overflow:visible}
+.hero-scroll:hover .scroll-arrow{transform:translateY(4px)}
+.scroll-arrow{transition:transform .3s ease}
+.countdown-section{position:relative;padding:62px 32px 38px;overflow:hidden}
+.countdown-keepsake{position:relative;max-width:510px;margin:auto;isolation:isolate}
+.countdown-face{position:relative;padding:56px 20px 36px;border:1px solid #a5af9266;border-radius:150px 150px 20px 20px;background:linear-gradient(160deg,#fffdf5f5,#f1f1e3ed);box-shadow:0 14px 36px #5665450c,inset 0 0 0 7px #fffdf54d}
+.countdown-face:before{content:"";position:absolute;inset:8px;border:1px solid #b8b79a48;border-radius:inherit;pointer-events:none}
+.countdown-face>h2,.countdown-date,.countdown-face>.countdown{position:relative;z-index:3}
+.countdown-date{gap:12px;margin-bottom:27px}
+.countdown-date-main{font-size:clamp(26px,7.2vw,40px);line-height:1.5;color:#435239}
+.countdown-date-year{display:flex;align-items:center;gap:14px;font:italic 22px/1.4 Georgia,serif;letter-spacing:3px;color:#956f65}
+.countdown-date-year:before,.countdown-date-year:after{content:"";height:1px;width:30px;background:linear-gradient(90deg,transparent,#b2a084)}
+.countdown-date-year:after{transform:rotate(180deg)}
+.countdown-face .countdown{gap:9px;max-width:330px;margin:auto}
+.countdown-face .countdown>div{flex:1;min-width:0;padding:12px 0 9px;border-top:1px solid #a2ac8b66;border-bottom:1px solid #a2ac8b66;background:linear-gradient(#ffffff80,#eef0e350);border-radius:9px}
+.countdown-face .countdown strong{font-size:clamp(27px,7.5vw,39px);color:#4a5b3e}
+.countdown-face .countdown span{margin-top:7px;font-size:9px;color:#758267}
+.countdown-bouquet{position:absolute;inset:0;z-index:2;pointer-events:none}
+.countdown-flower{position:absolute;display:block;width:105px;transform-origin:50% 90%}
+.countdown-flower img{display:block;width:100%;height:auto;transform-origin:50% 92%}
+.countdown-flower.fern-left{left:-52px;top:-14px;width:135px;transform:rotate(-23deg)}
+.countdown-flower.fern-right{right:-48px;bottom:-34px;width:133px;transform:rotate(29deg)}
+.countdown-flower.rose{left:-28px;top:-31px;width:95px;transform:rotate(-22deg)}
+.countdown-flower.blue{right:-33px;bottom:-20px;width:102px;transform:rotate(22deg)}
+.countdown-flower.pink{right:-35px;top:-13px;width:96px;transform:rotate(23deg)}
+.countdown-flower.daisy{left:-39px;bottom:-28px;width:90px;transform:rotate(-28deg)}
+.finale{height:160svh;min-height:0}
+.finale-stage{position:sticky;top:0}
+.finale-vertical-hint{position:absolute;bottom:max(25px,env(safe-area-inset-bottom));left:20px;right:20px;z-index:7;text-align:center;font-size:11px;color:#647457;background:#faf7efda;border-radius:20px;padding:8px 10px;width:fit-content;max-width:calc(100% - 40px);margin:auto;pointer-events:none}
+.finale-vertical-hint span{display:inline-block;font:20px/1 Georgia,serif;margin-right:6px;vertical-align:middle}
+@media(min-width:601px){.countdown-face{padding:64px 42px 42px}.countdown-section{padding-top:75px;padding-bottom:48px}.countdown-flower.rose{width:120px;left:-30px}.countdown-flower.pink{width:120px;right:-32px}.countdown-flower.blue{width:127px;right:-37px}.countdown-flower.daisy{width:110px}}
+@media(max-width:350px){.countdown-section{padding-inline:27px}.countdown-face{padding:49px 14px 30px}.countdown-face .countdown{gap:7px}.countdown-date-main{font-size:25px}.countdown-flower.rose{width:82px}.countdown-flower.pink{width:82px}}
+@media(prefers-reduced-motion:reduce){.scroll-arrow{transition:none}.finale{height:auto}.finale-stage{position:relative}.finale-vertical-hint{display:none}}

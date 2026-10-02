@@ -80,7 +80,7 @@
     }
   });
   let borderAnimations = [], finaleTimeline, calendarTimeline, reflectionTimeline, closingReflectionTimeline, borderHeight = 0, borderStep = 0;
-  let gardenResize, layoutTimer;
+  let gardenResize, layoutTimer, countdownBloomTimeline;
   const story = $('#story-garden');
   function refreshGardenLayout() {
     clearTimeout(layoutTimer);
@@ -167,6 +167,12 @@
     closingReflectionTimeline=gs.timeline({scrollTrigger:{trigger:closing,start:'top 70%',end:'top 20%',scrub:.65,invalidateOnRefresh:true},onUpdate:()=>{closing.dataset.growth=closingReflectionTimeline.progress().toFixed(3);}})
       .fromTo(closing,{clipPath:'inset(0% 0% 100% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1,ease:'none'});
   }
+  function createCountdownGarden() {
+    if(countdownBloomTimeline || !gs || !ST || reduce.matches)return;
+    const section=$('.countdown-section');
+    countdownBloomTimeline=gs.timeline({scrollTrigger:{trigger:section,start:'top 88%',end:'top 24%',scrub:.7,invalidateOnRefresh:true},onUpdate:()=>{section.dataset.bloom=countdownBloomTimeline.progress().toFixed(3);}})
+      .fromTo($$('.countdown-flower img'),{opacity:0,scale:.55,y:32},{opacity:1,scale:1,y:0,duration:1,stagger:.09,ease:'power1.out'});
+  }
   function createFinale() {
     if(finaleTimeline||!gs||!ST||reduce.matches)return;
     const finale=$('#finale');
@@ -183,6 +189,20 @@
     if(gs&&!reduce.matches)gs.to(hint,{opacity:0,y:6,duration:.45,onComplete:()=>{hint.hidden=true;}});
     else hint.hidden=true;
   }
+  let lastGardenScroll=scrollY, gardenScrollFrame=0;
+  window.addEventListener('scroll',()=>{
+    if(gardenScrollFrame)return;
+    gardenScrollFrame=requestAnimationFrame(()=>{
+      gardenScrollFrame=0;
+      const delta=scrollY-lastGardenScroll;lastGardenScroll=scrollY;
+      const bounds=stage.getBoundingClientRect();
+      if(!reduce.matches && bounds.top<innerHeight*.8 && bounds.bottom>0 && Math.abs(delta)<innerHeight)turnGarden(angle+delta*.16);
+    });
+  },{passive:true});
+  // At the page bottom, a downward wheel gesture can still play with the flowers.
+  stage.addEventListener('wheel',event=>{
+    if(!reduce.matches && event.deltaY>0 && scrollY+innerHeight>=document.documentElement.scrollHeight-2)turnGarden(angle+Math.min(event.deltaY,120)*.12);
+  },{passive:true});
   const swipeSpeed=.38;
   function turnGarden(next){
     angle=next;
@@ -249,7 +269,7 @@
   });
   function observeGarden() {
     document.documentElement.classList.toggle('garden-motion',!!gs&&!!ST&&!reduce.matches);
-    buildBorders();createFinale();createReflection();createTextReveals();configureScroll();
+    buildBorders();createFinale();createCountdownGarden();createReflection();createTextReveals();configureScroll();
     if(!calendarTimeline&&gs&&ST&&!reduce.matches){
       calendarTimeline=gs.timeline({scrollTrigger:{trigger:$('.calendar-section'),start:'top 70%',end:'top 15%',scrub:.65}})
         .fromTo($$('.calendar-flower img'),{opacity:0,scale:.85,x:i=>i%2?45:-45},{opacity:1,scale:1,x:0,duration:1,stagger:.08,ease:'power1.out'});
@@ -317,11 +337,12 @@
       if(intro)intro.kill();if(opening)revealAll();
       borderAnimations.forEach(tl=>{tl.scrollTrigger?.kill();tl.kill();});borderAnimations=[];
       if(finaleTimeline){finaleTimeline.scrollTrigger?.kill();finaleTimeline.kill();finaleTimeline=null;}
+      if(countdownBloomTimeline){countdownBloomTimeline.scrollTrigger?.kill();countdownBloomTimeline.kill();countdownBloomTimeline=null;}
       if(calendarTimeline){calendarTimeline.scrollTrigger?.kill();calendarTimeline.kill();calendarTimeline=null;}
       if(reflectionTimeline){reflectionTimeline.scrollTrigger?.kill();reflectionTimeline.kill();reflectionTimeline=null;}
       if(closingReflectionTimeline){closingReflectionTimeline.scrollTrigger?.kill();closingReflectionTimeline.kill();closingReflectionTimeline=null;}
       document.documentElement.classList.remove('garden-motion');
-      if(gs)gs.set($$('.stem,.bloom img,.grow-art,.orbit-bloom,.orbit-ring,.finale-scroll-note,.calendar-flower img,.hero-reflection,.story-reflection'),{clearProps:'all'});
+      if(gs)gs.set($$('.stem,.bloom img,.grow-art,.orbit-bloom,.orbit-ring,.finale-scroll-note,.calendar-flower img,.countdown-flower img,.hero-reflection,.story-reflection'),{clearProps:'all'});
     }else if(!document.documentElement.classList.contains('intro-locked')){borderHeight=0;observeGarden();}
     if(ST)ST.refresh();
   });
