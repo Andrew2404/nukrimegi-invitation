@@ -28,7 +28,7 @@ jobs:
       - name: Ensure invitation publishing storage
         run: |
           if ! grep -q '^BLOB_READ_WRITE_TOKEN=' .vercel/.env.production.local; then
-            vercel blob create-store nukrimegi-content --access private --yes --environment production --token="$VERCEL_TOKEN" > /tmp/blob-setup.log 2>&1 || { echo "Blob setup failed; check project storage permissions."; exit 1; }
+            vercel blob create-store nukrimegi-content --access private --yes --environment production --token="$VERCEL_TOKEN" > /tmp/blob-setup.log 2>&1 || { node -e 'console.error(require("fs").readFileSync("/tmp/blob-setup.log","utf8").replace(/[A-Za-z0-9_=-]{24,}/g,"[redacted]"))'; exit 1; }
             vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
           fi
       - name: Install and test
