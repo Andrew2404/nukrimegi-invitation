@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nukri and Megi//Wedding Invitation//KA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nukri-megi-20261025@invitation
+DTSTAMP:20260926T160000Z
+SEQUENCE:1
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:ნუკრი & მეგი — ქორწილი
+DESCRIPTION:14:00 — ჯვრისწერა\, მეფე თა
+ მარის ტაძარი\n17:00 — ხელის მოწ
+ ერის ცერემონია\, გონიოს ციხ
+ ე\n18:00 — ქორწილი\, რესტორანი გ
+ რინ ჰაუსი\n\nტაძარი: https://maps.app.goo.gl
+ /852rJtv9zc7Wk15cA\nრესტორანი: https://maps.app.goo.gl
+ /jbrcrqgw7hZk2UHKA
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,10 @@
+Original botanical assets generated with the built-in image-generation tool:
+
+cosmos.png: Single pale blush cosmos, slender sage stem, bud and feathery leaves; watercolor wedding stationery; complete plant; transparent alpha; no lettering, pot or frame.
+delphinium.png: Single blue delphinium stem with varied blossoms and buds; muted sage leaves; fine-art watercolor; transparent alpha; no background.
+rose.png: Peach-blush garden rose, open bloom, small bud, natural leaves and curved stem; watercolor botanical specimen; transparent alpha.
+daisies.png: Airy sprig of three white daisies/cosmos, yellow centers, delicate foliage; watercolor wedding palette; transparent alpha.
+greenery.png: Lush upright fern, eucalyptus and olive-green branches with tiny white wildflowers; fine-art watercolor, irregular botanical silhouette; transparent alpha.
+wildflowers.png: Airy butter-yellow wildflower sprig, ochre centers, buds and sage foliage; botanical watercolor; transparent alpha.
+
+All generated originals are retained in assets/flowers. Serving copies are resized proportionally to 640 by 960 and encoded as WebP with alpha preserved. No image is stretched. The favicon is a proportional reduction of the cosmos asset.
