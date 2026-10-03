@@ -1,6 +1,5 @@
 'use strict';
-(async () => {
-  await window.NM_CONFIG_READY;
+(() => {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -52,11 +51,10 @@
   function createTextReveals(){
     if(textReady||!gs||!ST)return;textReady=true;
     const groups=[
-      ['.welcome h2','.welcome h2,.welcome .small-dedication,.welcome .section-content>p:not(.small-dedication)'],
-      ['.countdown-date','#countdown-title,.countdown-date,.countdown'],
-      ['.events','#program-title,.program .section-intro'],
+      ['.welcome h2','.welcome h2'],
+      ['.countdown-date','.countdown-date,.countdown'],
       ...$$('.events li').map(row=>[row,[$('.event-time',row),$('.event-details h3',row),$('.event-details p',row),$('.map-link',row)]]),
-      ['#calendar-title','#calendar-title,.calendar-year,.calendar,.calendar-button'],
+      ['#calendar-title','#calendar-title,.calendar-year,.calendar'],
       ['#rsvp-title','#rsvp-title,.rsvp-intro,#rsvp-form'],
       ['.finale-copy h2','.finale-copy h2']
     ];
@@ -198,9 +196,7 @@
   function dismissGardenHint(){
     if(hintDismissed)return;
     hintDismissed=true;
-    const hint=$('.finale-scroll-note');if(!hint)return;
-    if(gs&&!reduce.matches)gs.to(hint,{opacity:0,y:6,duration:.45,onComplete:()=>{hint.hidden=true;}});
-    else hint.hidden=true;
+
   }
   let lastGardenScroll=scrollY, gardenScrollFrame=0;
   window.addEventListener('scroll',()=>{
@@ -308,8 +304,7 @@
     intro.to($$('.letter',names[0]),{opacity:1,y:0,filter:'blur(0px)',duration:.4,stagger:.12},1.25)
       .to($('.hero h1 i'),{opacity:1,scale:1,duration:.65},2.05)
       .to($$('.letter',names[1]),{opacity:1,y:0,filter:'blur(0px)',duration:.4,stagger:.12},2.35)
-      .to($$('.invitation-line'),{opacity:1,y:0,duration:1.1},.65)
-      .to($$('[data-intro-text]:not(.invitation-line)'),{opacity:1,y:0,duration:.85,stagger:.16},3.15);
+      .to($$('[data-intro-text]'),{opacity:1,y:0,duration:.85,stagger:.16},3.15);
   }
   $$('.name-line').forEach(line=>{
     const text=line.textContent;
@@ -317,8 +312,7 @@
     line.textContent='';
     graphemes.forEach(char=>{const span=document.createElement('span');span.className='letter';span.textContent=char;line.append(span);});
   });
-  const openingDisabled = document.documentElement.dataset.nmOpeningDisabled === 'true';
-  if (!location.hash && !openingDisabled) {
+  if (!location.hash) {
     lock();
     gate.hidden=false;
     if (gs && !reduce.matches) {
@@ -344,19 +338,18 @@
       if(reflectionTimeline){reflectionTimeline.scrollTrigger?.kill();reflectionTimeline.kill();reflectionTimeline=null;}
       if(closingReflectionTimeline){closingReflectionTimeline.scrollTrigger?.kill();closingReflectionTimeline.kill();closingReflectionTimeline=null;}
       document.documentElement.classList.remove('garden-motion');
-      if(gs)gs.set($$('.stem,.bloom img,.grow-art,.orbit-bloom,.orbit-ring,.finale-scroll-note,.calendar-flower img,.countdown-flower img,.hero-reflection,.story-reflection'),{clearProps:'all'});
+      if(gs)gs.set($$('.stem,.bloom img,.grow-art,.orbit-bloom,.orbit-ring,.calendar-flower img,.countdown-flower img,.hero-reflection,.story-reflection'),{clearProps:'all'});
     }else if(!document.documentElement.classList.contains('intro-locked')){borderHeight=0;observeGarden();}
     if(ST)ST.refresh();
   });
   window.addEventListener('resize',refreshGardenLayout);
-  const configuredDate=window.NM_CONFIG?.hero?.isoDate||'2026-10-15';
-  const weddingTime=window.NM_CONFIG?.events?.find(event=>event.time)?.time || '18:00';
+  const configuredDate='2026-10-15';
+  const weddingTime='18:00';
   const weddingDate=new Date(`${configuredDate}T${weddingTime}:00+04:00`).getTime();
   function countdown() {
     const now=Date.now(), seconds=Math.max(0,Math.floor((weddingDate-now)/1000));
     const values={days:Math.floor(seconds/86400),hours:Math.floor(seconds%86400/3600),minutes:Math.floor(seconds%3600/60),seconds:seconds%60};
     Object.entries(values).forEach(([id,value])=>$('#'+id).textContent=String(value).padStart(2,'0'));
-    if(!seconds&&$('#countdown-title')){$('#countdown-title').textContent=now<weddingDate+36000000?'ჩვენი დღე დადგა':'ჩვენი სიყვარულის დღე';}
   }
   countdown();setInterval(()=>{if(!document.hidden)countdown();},1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)countdown();});
